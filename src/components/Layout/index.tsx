@@ -66,7 +66,7 @@ const useStyles = makeStyles({
   },
   content: {
     flexGrow: 1,
-    paddingTop: 18
+    padding: "18px 34px 18px 29px"
   },
   drawer: {
     width: drawerWidth,
@@ -82,7 +82,7 @@ const useStyles = makeStyles({
 });
 
 interface IProps {
-  children: Element;
+  children: JSX.Element;
 }
 
 const Layout: FC<IProps> = ({ children }) => {

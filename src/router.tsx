@@ -5,13 +5,15 @@ import {
   Route
 } from "react-router-dom";
 import Login from "./pages/login";
+import Passing from "./pages/passing";
 import { Layout } from "./components";
+import { withLayout } from "./hocs";
 
 const Router = () => {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path="/passing" exact component={Layout} />
+        <Route path="/passing" exact component={withLayout(Passing)} />
         <Route path="/summary" exact component={Layout} />
         <Route path="/quizzes" exact component={Layout} />
         <Route path="/quizzes/create" exact component={Layout} />
