@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core';
 import SchoolIcon from '@material-ui/icons/School';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import { OutlinedInput, Button } from '@material-ui/core';
@@ -7,8 +7,10 @@ import { OutlinedInput, Button } from '@material-ui/core';
 const useStyles = makeStyles({
   root: {
     backgroundColor: '#3D5AFE',
-    paddingTop: 256,
-    paddingBottom: 373,
+    display: "flex",
+    position: "fixed",
+    height: "100%",
+    width: "100%"
   },
   container: {
     backgroundColor: "#304FFE",
@@ -63,7 +65,8 @@ const useStyles = makeStyles({
 
 const Login = () => {
   const classes = useStyles();
-  //TODO: fix input style, add grey hint, fix root height
+
+  //TODO: add grey hint
   return (
     <div className={classes.root}>
       <div className={classes.container}>
@@ -76,6 +79,7 @@ const Login = () => {
         <div style={{ marginBottom: 20 }}>
           <div className={classes.inputLabel}>Email</div>
           <OutlinedInput
+            placeholder="Email"
             fullWidth
             classes={{
               root: classes.inputContainer,
@@ -86,6 +90,7 @@ const Login = () => {
         <div style={{ marginBottom: 8 }}>
           <div className={classes.inputLabel}>Password</div>
           <OutlinedInput
+            placeholder="Password"
             fullWidth
             classes={{
               root: classes.inputContainer,
