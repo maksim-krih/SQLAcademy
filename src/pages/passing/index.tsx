@@ -3,9 +3,6 @@ import { makeStyles, Paper, Divider, TextField } from '@material-ui/core';
 import { Button } from '../../components';
 
 const useStyles = makeStyles({
-  root: {
-
-  },
   quizTitleContainer: {
     display: "flex",
     justifyContent: "space-between",
@@ -43,8 +40,7 @@ const useStyles = makeStyles({
     display: "flex"
   },
   taskBodyVerticalDivider: {
-    margin: "-46px 21px 0 10px",
-    width: 0.5
+    margin: "-46px 21px 0 10px"
   },
   taskInput: {
     marginBottom: 38
@@ -64,14 +60,19 @@ const useStyles = makeStyles({
   },
   taskCompletion: {
     width: "100%"
+  },
+  taskDivider: {
+    marginBottom: 22,
+    marginTop: 14,
   }
 });
 
 const Passing = () => {
   const classes = useStyles();
+  const tasks = [1, 2];
 
   return (
-    <div className={classes.root}>
+    <div>
       <Paper elevation={0} className={classes.quizTitleContainer}>
         <div className={classes.quizTitle}>
           Quiz: Lorem ipsum dolor
@@ -79,77 +80,85 @@ const Passing = () => {
         <Button>Submit</Button>
       </Paper>
       <Paper elevation={0} className={classes.taskContainer}>
-        <div className={classes.taskTitleContainer}>
-          <div className={classes.taskTitle}>
-            1. Lorem ipsun dolor
-          </div>
-          <Button>Run</Button>
-        </div>
-        <div className={classes.taskBody}>
-          <div className={classes.taskDescription}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Donec eros erat, feugiat sed scelerisque vel, feugiat et lorem.
-            Curabitur mattis blandit augue. Aliquam in libero id justo
-            rutrum lobortis sed id nisi. Praesent scelerisque nisi nisl,
-            ac porttitor justo scelerisque vitae. Vestibulum ante ipsum
-            primis in faucibus orci luctus et ultrices posuere cubilia
-            curae; In sed interdum erat, nec porta sapien. Nunc maximus
-            erat non risus tempus varius. Praesent et volutpat odio.
-        </div>
-          <Divider
-            orientation="vertical"
-            flexItem
-            className={classes.taskBodyVerticalDivider}
-          />
-          <div className={classes.taskCompletion}>
-            <TextField
-              multiline
-              rows={5}
-              fullWidth
-              className={classes.taskInput}
-              variant="outlined"
+        {tasks.map((x, i) => (
+          <div>
+            <div className={classes.taskTitleContainer}>
+              <div className={classes.taskTitle}>
+                {x}. Lorem ipsun dolor
+              </div>
+              <Button>Run</Button>
+            </div>
+            <div className={classes.taskBody}>
+              <div className={classes.taskDescription}>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                Donec eros erat, feugiat sed scelerisque vel, feugiat et lorem.
+                Curabitur mattis blandit augue. Aliquam in libero id justo
+                rutrum lobortis sed id nisi. Praesent scelerisque nisi nisl,
+                ac porttitor justo scelerisque vitae. Vestibulum ante ipsum
+                primis in faucibus orci luctus et ultrices posuere cubilia
+                curae; In sed interdum erat, nec porta sapien. Nunc maximus
+                erat non risus tempus varius. Praesent et volutpat odio.
+              </div>
+              <Divider
+                orientation="vertical"
+                flexItem
+                className={classes.taskBodyVerticalDivider}
+              />
+              <div className={classes.taskCompletion}>
+                <TextField
+                  multiline
+                  rows={5}
+                  fullWidth
+                  className={classes.taskInput}
+                  variant="outlined"
+                />
+                <table className={classes.taskOutput}>
+                  <thead>
+                    <tr>
+                      <th style={{ minWidth: 45 }}>Id</th>
+                      <th style={{ minWidth: 151 }}>Name</th>
+                      <th>Description</th>
+                      <th style={{ minWidth: 83 }}>Price</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>1</td>
+                      <td>Lorem ipsum dolor</td>
+                      <td>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Donec eros erat, feugiat sed scelerisque vel, feugiat et lorem.
+                      </td>
+                      <td>30</td>
+                    </tr>
+                    <tr>
+                      <td>2</td>
+                      <td>Lorem ipsum dolor</td>
+                      <td>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Donec eros erat, feugiat sed scelerisque vel, feugiat et lorem.
+                      </td>
+                      <td>15</td>
+                    </tr>
+                    <tr>
+                      <td>3</td>
+                      <td>Lorem ipsum dolor</td>
+                      <td>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Donec eros erat, feugiat sed scelerisque vel, feugiat et lorem.
+                </td>
+                      <td>100</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <Divider
+              className={classes.taskDivider}
+              hidden={tasks.length - 1 === i}
             />
-            <table className={classes.taskOutput}>
-              <thead>
-                <tr>
-                  <th style={{ minWidth: 45 }}>Id</th>
-                  <th style={{ minWidth: 151 }}>Name</th>
-                  <th>Description</th>
-                  <th style={{ minWidth: 83 }}>Price</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Lorem ipsum dolor</td>
-                  <td>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Donec eros erat, feugiat sed scelerisque vel, feugiat et lorem.
-                </td>
-                  <td>30</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Lorem ipsum dolor</td>
-                  <td>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Donec eros erat, feugiat sed scelerisque vel, feugiat et lorem.
-                </td>
-                  <td>15</td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>Lorem ipsum dolor</td>
-                  <td>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Donec eros erat, feugiat sed scelerisque vel, feugiat et lorem.
-                </td>
-                  <td>100</td>
-                </tr>
-              </tbody>
-            </table>
           </div>
-        </div>
+        ))}
       </Paper>
     </div>
   );
