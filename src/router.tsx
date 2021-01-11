@@ -7,6 +7,7 @@ import {
 import Login from "./pages/login";
 import Passing from "./pages/passing";
 import Result from "./pages/result";
+import Quizzes from "./pages/quizzes";
 import { Layout } from "./components";
 import { withLayout } from "./hocs";
 
@@ -16,7 +17,7 @@ const Router = () => {
       <Switch>
         <Route path="/passing" exact component={withLayout(Passing)} />
         <Route path="/result" exact component={withLayout(Result)} />
-        <Route path="/quizzes" exact component={Layout} />
+        <Route path="/quizzes" exact component={withLayout(Quizzes)} />
         <Route path="/quizzes/create" exact component={Layout} />
         <Route path="/results" exact component={Layout} />
         <Route path="/students" exact component={Layout} />
