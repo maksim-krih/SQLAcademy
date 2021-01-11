@@ -10,6 +10,7 @@ import Result from "./pages/result";
 import Quizzes from "./pages/quizzes";
 import Results from "./pages/results";
 import Students from "./pages/students";
+import QuizzesCreate from "./pages/quizzes/create";
 import { Layout } from "./components";
 import { withLayout } from "./hocs";
 
@@ -20,7 +21,7 @@ const Router = () => {
         <Route path="/passing" exact component={withLayout(Passing)} />
         <Route path="/result" exact component={withLayout(Result)} />
         <Route path="/quizzes" exact component={withLayout(Quizzes)} />
-        <Route path="/quizzes/create" exact component={Layout} />
+        <Route path="/quizzes/create" exact component={withLayout(QuizzesCreate)} />
         <Route path="/results" exact component={withLayout(Results)} />
         <Route path="/students" exact component={withLayout(Students)} />
         <Route path="/login" exact component={Login} />
