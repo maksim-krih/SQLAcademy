@@ -27,13 +27,19 @@ const useStyles = makeStyles({
     marginTop: 12,
     marginBottom: 14
   },
-  button: {
+  footer: {
     display: "flex",
-    justifyContent: "flex-end"
+    justifyContent: "space-between",
+    alignItems: "center"
+  },
+  score: {
+    fontWeight: "bold",
+    fontSize: 14,
+    lineHeight: "26px"
   }
 });
 
-const Quizzes = () => {
+const Results = () => {
   const classes = useStyles();
   const tasks = [1, 2, 3, 4, 5, 6];
 
@@ -41,9 +47,8 @@ const Quizzes = () => {
     <div>
       <Paper elevation={0} className={classes.titleContainer}>
         <div className={classes.title}>
-          Quizzes
+          Results
         </div>
-        <Button>Create</Button>
       </Paper>
       <Grid container spacing={4}>
         {tasks.map(x => (
@@ -55,8 +60,11 @@ const Quizzes = () => {
               <Divider
                 className={classes.divider}
               />
-              <div className={classes.button}>
-                <Button>Start</Button>
+              <div className={classes.footer}>
+                <div className={classes.score}>
+                  Score: 8 / 10
+              </div>
+                <Button>View</Button>
               </div>
             </Paper>
           </Grid>
@@ -66,4 +74,4 @@ const Quizzes = () => {
   );
 }
 
-export default Quizzes;
+export default Results;

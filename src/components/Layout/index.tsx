@@ -13,6 +13,7 @@ import SchoolIcon from '@material-ui/icons/School';
 import PersonIcon from '@material-ui/icons/Person';
 import RateReviewIcon from '@material-ui/icons/RateReview';
 import LibraryAddCheckIcon from '@material-ui/icons/LibraryAddCheck';
+import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 
 const drawerWidth = 292;
 
@@ -123,6 +124,10 @@ const Layout: FC<IProps> = ({ children }) => {
             <ListItem button key="Results">
               <ListItemIcon><LibraryAddCheckIcon /></ListItemIcon>
               <ListItemText primary="Results" />
+            </ListItem>
+            <ListItem button key="Students">
+              <ListItemIcon><PeopleAltIcon /></ListItemIcon>
+              <ListItemText primary="Students" />
             </ListItem>
           </List>
         </div>

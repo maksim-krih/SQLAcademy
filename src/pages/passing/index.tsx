@@ -52,7 +52,8 @@ const useStyles = makeStyles({
     borderCollapse: "collapse",
     "& th, & td": {
       border: "1px solid #E2E2E2",
-      verticalAlign: "bottom"
+      verticalAlign: "bottom",
+      paddingLeft: 10
     },
     "& th": {
       textAlign: "left"
