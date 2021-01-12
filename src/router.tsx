@@ -24,7 +24,7 @@ const Router = () => {
           <PrivateRoute path="/passing" exact component={withLayout(Passing)} />
           <PrivateRoute path="/result" exact component={withLayout(Result)} />
           <PrivateRoute path="/" exact component={withLayout(Quizzes)} />
-          <PrivateRoute path="/quizzes/create" exact component={withLayout(QuizzesCreate)} />
+          <Route path="/quizzes/create" exact component={withLayout(QuizzesCreate)} />
           <PrivateRoute path="/results" exact component={withLayout(Results)} />
           <PrivateRoute path="/students" exact component={withLayout(Students)} />
           <Route path="/login" exact component={Login} />
