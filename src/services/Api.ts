@@ -3,7 +3,7 @@ import PassingApi from "./passing"
 
 const backendUrl = "";
 
-export const service = axios.create({
+export const BaseApi = axios.create({
   baseURL: backendUrl
 });
 

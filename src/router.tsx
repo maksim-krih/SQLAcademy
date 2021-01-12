@@ -11,21 +11,25 @@ import Quizzes from "./pages/quizzes";
 import Results from "./pages/results";
 import Students from "./pages/students";
 import QuizzesCreate from "./pages/quizzes/create";
-import { Layout } from "./components";
-import { withLayout } from "./hocs";
+import { ScrollToTop } from "./components";
+import { onlyAuth, withLayout } from "./hocs";
+
+const PrivateRoute = onlyAuth("/login")(Route);
 
 const Router = () => {
   return (
     <BrowserRouter>
-      <Switch>
-        <Route path="/passing" exact component={withLayout(Passing)} />
-        <Route path="/result" exact component={withLayout(Result)} />
-        <Route path="/quizzes" exact component={withLayout(Quizzes)} />
-        <Route path="/quizzes/create" exact component={withLayout(QuizzesCreate)} />
-        <Route path="/results" exact component={withLayout(Results)} />
-        <Route path="/students" exact component={withLayout(Students)} />
-        <Route path="/login" exact component={Login} />
-      </Switch>
+      <ScrollToTop>
+        <Switch>
+          <PrivateRoute path="/passing" exact component={withLayout(Passing)} />
+          <PrivateRoute path="/result" exact component={withLayout(Result)} />
+          <PrivateRoute path="/" exact component={withLayout(Quizzes)} />
+          <PrivateRoute path="/quizzes/create" exact component={withLayout(QuizzesCreate)} />
+          <PrivateRoute path="/results" exact component={withLayout(Results)} />
+          <PrivateRoute path="/students" exact component={withLayout(Students)} />
+          <Route path="/login" exact component={Login} />
+        </Switch>
+      </ScrollToTop>
     </BrowserRouter>
   );
 };
