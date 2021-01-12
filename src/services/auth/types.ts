@@ -1,13 +1,11 @@
 import { User } from "../types";
 
-export interface VerifyMobileCodeResponse {
-  isCodeVerified: Boolean;
-  user: User;
-  token: string;
-  id: string;
+export interface Login {
+  email: string;
+  password: string;
 }
 
-export interface VerifyMobileCodeInput {
-  phoneNumber: string;
-  code: string;
+export interface LoginResponse {
+  user: User;
+  token: string;
 }

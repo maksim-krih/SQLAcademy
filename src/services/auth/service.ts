@@ -44,7 +44,7 @@ class AuthService {
       return {
         firstName: "",
         lastName: "",
-        avatarURL: ""
+        avatarUrl: ""
       };
     }
 

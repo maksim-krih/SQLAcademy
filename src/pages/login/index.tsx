@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
 import SchoolIcon from '@material-ui/icons/School';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import { OutlinedInput, Button } from '@material-ui/core';
+import Api, { AuthService } from '../../services';
 
 const useStyles = makeStyles({
   root: {
@@ -65,8 +67,16 @@ const useStyles = makeStyles({
 
 const Login = () => {
   const classes = useStyles();
+  const history = useHistory();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  //TODO: add grey hint
+  const onSubmit = () => {
+    const response = Api.Auth.login({ email, password });
+    AuthService.SetAccount(response);
+    history.push("/quizzes");
+  }
+
   return (
     <div className={classes.root}>
       <div className={classes.container}>
@@ -81,6 +91,8 @@ const Login = () => {
           <OutlinedInput
             placeholder="Email"
             fullWidth
+            value={email}
+            onChange={(e: any) => setEmail(e.target.value)}
             classes={{
               root: classes.inputContainer,
               input: classes.input
@@ -92,6 +104,8 @@ const Login = () => {
           <OutlinedInput
             placeholder="Password"
             fullWidth
+            value={password}
+            onChange={(e: any) => setPassword(e.target.value)}
             classes={{
               root: classes.inputContainer,
               input: classes.input
@@ -102,6 +116,7 @@ const Login = () => {
           <Button
             startIcon={<VpnKeyIcon />}
             className={classes.submit}
+            onClick={onSubmit}
           >
             Log In
           </Button>

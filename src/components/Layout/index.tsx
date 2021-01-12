@@ -6,7 +6,15 @@ import {
   ListItem,
   ListItemText,
   ListItemIcon,
-  Drawer
+  Drawer,
+  Paper,
+  ClickAwayListener,
+  Avatar,
+  IconButton,
+  Popper,
+  Grow,
+  MenuList,
+  MenuItem
 } from "@material-ui/core";
 import React, { FC } from "react";
 import SchoolIcon from '@material-ui/icons/School';
@@ -14,6 +22,9 @@ import PersonIcon from '@material-ui/icons/Person';
 import RateReviewIcon from '@material-ui/icons/RateReview';
 import LibraryAddCheckIcon from '@material-ui/icons/LibraryAddCheck';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import { Link } from "react-router-dom";
+import { AuthService } from "../../services";
 
 const drawerWidth = 292;
 
@@ -88,6 +99,42 @@ interface IProps {
 
 const Layout: FC<IProps> = ({ children }) => {
   const classes = useStyles();
+  const [openMenu, setOpenMenu] = React.useState(false);
+  const anchorRef = React.useRef<HTMLButtonElement>(null);
+
+  const handleToggle = () => {
+    setOpenMenu((prevOpen: boolean) => !prevOpen);
+  };
+
+  const handleClose = (event: React.MouseEvent<EventTarget>) => {
+    if (
+      anchorRef.current &&
+      anchorRef.current.contains(event.target as HTMLElement)
+    ) {
+      return;
+    }
+
+    setOpenMenu(false);
+  };
+
+  function handleListKeyDown(event: React.KeyboardEvent) {
+    if (event.key === 'Tab') {
+      event.preventDefault();
+      setOpenMenu(false);
+    }
+  }
+
+  const prevOpen = React.useRef(openMenu);
+
+  React.useEffect(() => {
+    if (prevOpen.current === true && openMenu === false) {
+      anchorRef.current!.focus();
+    }
+
+    prevOpen.current = openMenu;
+  }, [openMenu]);
+
+  const avatarUrl = AuthService.User.avatarUrl;
 
   return (
     <div className={classes.root}>
@@ -101,9 +148,61 @@ const Layout: FC<IProps> = ({ children }) => {
           </div>
           <div className={classes.account}>
             <div className={classes.userName}>User</div>
-            <div className={classes.userLogo}>
-              <PersonIcon className={classes.userLogoIcon} />
-            </div>
+            {avatarUrl ?
+              <Avatar
+                alt=''
+                src={avatarUrl}
+                className={classes.userLogoIcon}
+              />
+              :
+              <div className={classes.userLogo}>
+                <PersonIcon className={classes.userLogoIcon} />
+              </div>
+            }
+
+            <IconButton ref={anchorRef} onClick={handleToggle}>
+              <MoreVertIcon
+              />
+            </IconButton>
+            <Popper
+              open={openMenu}
+              anchorEl={anchorRef.current}
+              role={undefined}
+              transition
+              disablePortal
+              placement='bottom-end'
+            >
+              {({ TransitionProps }: any) => (
+                <Grow
+                  {...TransitionProps}
+                  style={{ transformOrigin: 'right top' }}
+                >
+                  <Paper>
+                    <ClickAwayListener onClickAway={handleClose}>
+                      <MenuList
+                        autoFocusItem={openMenu}
+                        id='menu-list-grow'
+                        onKeyDown={handleListKeyDown}
+                      >
+                        <MenuItem
+                          key='Account'
+                          component={Link}
+                          to="/"
+                        >
+                          Account
+                            </MenuItem>
+                        <MenuItem
+                          key='LogOut'
+                          onClick={() => AuthService.SignOut()}
+                        >
+                          Log out
+                            </MenuItem>
+                      </MenuList>
+                    </ClickAwayListener>
+                  </Paper>
+                </Grow>
+              )}
+            </Popper>
           </div>
         </Toolbar>
       </AppBar>
@@ -117,15 +216,33 @@ const Layout: FC<IProps> = ({ children }) => {
         <Toolbar />
         <div className={classes.drawerContainer}>
           <List>
-            <ListItem button key="Quizzes">
+            <ListItem
+              button
+              key="Quizzes"
+              component={
+                props => <Link to="/quizzes" {...props} />
+              }
+            >
               <ListItemIcon><RateReviewIcon /></ListItemIcon>
               <ListItemText primary="Quizzes" />
             </ListItem>
-            <ListItem button key="Results">
+            <ListItem
+              button
+              key="Results"
+              component={
+                props => <Link to="/results" {...props} />
+              }
+            >
               <ListItemIcon><LibraryAddCheckIcon /></ListItemIcon>
               <ListItemText primary="Results" />
             </ListItem>
-            <ListItem button key="Students">
+            <ListItem
+              button
+              key="Students"
+              component={
+                props => <Link to="/students" {...props} />
+              }
+            >
               <ListItemIcon><PeopleAltIcon /></ListItemIcon>
               <ListItemText primary="Students" />
             </ListItem>

@@ -1,7 +1,7 @@
 export interface User {
   firstName: string;
   lastName: string;
-  avatarURL: string;
+  avatarUrl: string;
   id: string;
 }
 

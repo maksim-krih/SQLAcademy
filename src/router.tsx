@@ -2,7 +2,8 @@ import React from "react";
 import {
   BrowserRouter,
   Switch,
-  Route
+  Route,
+  Redirect
 } from "react-router-dom";
 import Login from "./pages/login";
 import Passing from "./pages/passing";
@@ -23,11 +24,15 @@ const Router = () => {
         <Switch>
           <PrivateRoute path="/passing" exact component={withLayout(Passing)} />
           <PrivateRoute path="/result" exact component={withLayout(Result)} />
-          <PrivateRoute path="/" exact component={withLayout(Quizzes)} />
-          <Route path="/quizzes/create" exact component={withLayout(QuizzesCreate)} />
+          <PrivateRoute path="/quizzes" exact component={withLayout(Quizzes)} />
+          <PrivateRoute path="/quizzes/create" exact component={withLayout(QuizzesCreate)} />
           <PrivateRoute path="/results" exact component={withLayout(Results)} />
           <PrivateRoute path="/students" exact component={withLayout(Students)} />
           <Route path="/login" exact component={Login} />
+          <Route exact path="/">
+            <Redirect to="/quizzes" />
+          </Route>
+
         </Switch>
       </ScrollToTop>
     </BrowserRouter>
