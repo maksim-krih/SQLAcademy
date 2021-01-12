@@ -55,7 +55,7 @@ const QuizzesCreate = () => {
         <div className={classes.title}>
           Quiz / Create
         </div>
-        <Button>Create</Button>
+        <Button>Save</Button>
       </Paper>
       <Paper elevation={0} className={classes.quizContainer}>
         <div className={classes.quizNameLabel}>

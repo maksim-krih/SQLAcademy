@@ -91,6 +91,9 @@ const useStyles = makeStyles({
   drawerContainer: {
     overflow: 'auto',
   },
+  moreVertIcon: {
+    color: "#FFFFFF"
+  }
 });
 
 interface IProps {
@@ -135,6 +138,7 @@ const Layout: FC<IProps> = ({ children }) => {
   }, [openMenu]);
 
   const avatarUrl = AuthService.User.avatarUrl;
+  const userName = `${AuthService.User.firstName} ${AuthService.User.lastName}`;
 
   return (
     <div className={classes.root}>
@@ -147,7 +151,7 @@ const Layout: FC<IProps> = ({ children }) => {
           </div>
           </div>
           <div className={classes.account}>
-            <div className={classes.userName}>User</div>
+            <div className={classes.userName}>{userName}</div>
             {avatarUrl ?
               <Avatar
                 alt=''
@@ -162,6 +166,7 @@ const Layout: FC<IProps> = ({ children }) => {
 
             <IconButton ref={anchorRef} onClick={handleToggle}>
               <MoreVertIcon
+                className={classes.moreVertIcon}
               />
             </IconButton>
             <Popper

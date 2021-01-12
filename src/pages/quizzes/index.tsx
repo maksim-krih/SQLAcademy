@@ -1,5 +1,6 @@
 import React from 'react';
 import { makeStyles, Paper, Grid, Divider } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 import { Button } from '../../components';
 
 const useStyles = makeStyles({
@@ -43,7 +44,9 @@ const Quizzes = () => {
         <div className={classes.title}>
           Quizzes
         </div>
-        <Button>Create</Button>
+        <Link to="/quizzes/create">
+          <Button>Create</Button>
+        </Link>
       </Paper>
       <Grid container spacing={4}>
         {tasks.map(x => (
@@ -56,7 +59,9 @@ const Quizzes = () => {
                 className={classes.divider}
               />
               <div className={classes.button}>
-                <Button>Start</Button>
+                <Link to="/passing">
+                  <Button>Start</Button>
+                </Link>
               </div>
             </Paper>
           </Grid>
