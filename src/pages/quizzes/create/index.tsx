@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState, Fragment } from 'react';
 import { makeStyles, Paper, Divider, TextField, Button as MUButton } from '@material-ui/core';
 import { Button } from '../../../components';
+import Api, { AuthService } from '../../../services';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles({
   titleContainer: {
@@ -48,6 +50,29 @@ const useStyles = makeStyles({
 
 const QuizzesCreate = () => {
   const classes = useStyles();
+  const history = useHistory();
+  const [quiz, setQuiz] = useState({
+    name: "",
+    description: ""
+  });
+  const [tasks, setTasks] = useState([{
+    title: "",
+    description: "",
+    query: "",
+    mark: 0
+  }]);
+
+  const save = () => {
+    Api.Quiz.save({
+      tasks,
+      userId: Number(AuthService.User.id),
+      name: quiz.name,
+      description: quiz.description
+    })
+      .then(response => {
+        history.push("/quizzes");
+      })
+  }
 
   return (
     <div>
@@ -55,47 +80,70 @@ const QuizzesCreate = () => {
         <div className={classes.title}>
           Quiz / Create
         </div>
-        <Button>Save</Button>
+        <Button onClick={save}>Save</Button>
       </Paper>
       <Paper elevation={0} className={classes.quizContainer}>
         <div className={classes.quizNameLabel}>
           Name
         </div>
         <TextField
+          value={quiz.name}
+          onChange={(e) => setQuiz((prev) => ({ ...prev, name: e.target.value }))}
           fullWidth
           variant="outlined"
         />
-        <Divider className={classes.divider} />
-        <div className={classes.taskNumber}>
-          Task #1
-        </div>
-        <div className={classes.taskLabel}>
-          Name
-        </div>
-        <TextField
-          fullWidth
-          variant="outlined"
-        />
-        <div className={classes.taskLabel}>
+        <div className={classes.quizNameLabel} style={{ marginTop: 18 }}>
           Description
         </div>
         <TextField
-          multiline
-          rows={5}
-          fullWidth
-          variant="outlined"
-        />
-        <div className={classes.taskLabel}>
-          SQL query
-        </div>
-        <TextField
+          value={quiz.description}
+          onChange={(e) => setQuiz((prev) => ({ ...prev, description: e.target.value }))}
           fullWidth
           variant="outlined"
         />
         <Divider className={classes.divider} />
+        {tasks.map((x, i) => (
+          <Fragment>
+            <div className={classes.taskNumber}>
+              Task #{i + 1}
+            </div>
+            <div className={classes.taskLabel}>
+              Name
+        </div>
+            <TextField
+              fullWidth
+              variant="outlined"
+            />
+            <div className={classes.taskLabel}>
+              Description
+        </div>
+            <TextField
+              multiline
+              rows={5}
+              fullWidth
+              variant="outlined"
+            />
+            <div className={classes.taskLabel}>
+              SQL query
+        </div>
+            <TextField
+              fullWidth
+              variant="outlined"
+            />
+            <Divider className={classes.divider} />
+          </Fragment>
+        ))}
         <div className={classes.addTaskContainer}>
           <MUButton
             startIcon={<AddCircleIcon />}
+            onClick={() => {
+              setTasks(prev => [...prev, {
+                title: "",
+                description: "",
+                query: "",
+                mark: 0
+              }])
+            }}
           >
             Add Task
           </MUButton>

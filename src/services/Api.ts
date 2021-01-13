@@ -1,5 +1,5 @@
 import axios from "axios"
-import { PassingApi } from "./passing"
+import { QuizApi } from "./quiz"
 import { AuthApi } from "./auth"
 
 const backendUrl = "http://localhost:3000";
@@ -14,8 +14,8 @@ export const BaseApi = axios.create({
 });
 
 class Api {
-  static get Passing() {
-    return new PassingApi();
+  static get Quiz() {
+    return new QuizApi();
   }
 
   static get Auth() {

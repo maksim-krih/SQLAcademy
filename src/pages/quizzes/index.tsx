@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles, Paper, Grid, Divider } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { Button } from '../../components';
+import Api from '../../services';
+import { QuizDto } from '../../services/quiz/types';
 
 const useStyles = makeStyles({
   titleContainer: {
@@ -36,7 +38,15 @@ const useStyles = makeStyles({
 
 const Quizzes = () => {
   const classes = useStyles();
-  const tasks = [1, 2, 3, 4, 5, 6];
+  const [quizzes, setQuizzes] = useState<Array<QuizDto>>([]);
+
+  useEffect(() => {
+    (async () => {
+      Api.Quiz.getAll().then(response => {
+        setQuizzes(response);
+      })
+    })()
+  }, []);
 
   return (
     <div>
@@ -49,11 +59,11 @@ const Quizzes = () => {
         </Link>
       </Paper>
       <Grid container spacing={4}>
-        {tasks.map(x => (
+        {quizzes.map(x => (
           <Grid item xs={4}>
             <Paper elevation={0} className={classes.paper}>
               <div className={classes.quizTitle}>
-                {x}. Lorem ipsum dolor
+                {x.name}
               </div>
               <Divider
                 className={classes.divider}

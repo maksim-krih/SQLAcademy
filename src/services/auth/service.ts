@@ -1,7 +1,6 @@
 import { IAccount, User } from "../types";
 
 const userLocalStorageKey = "user";
-const tokenLocalStorageKey = "token";
 
 class AuthService {
   public get User() {
@@ -26,9 +25,9 @@ class AuthService {
   };
 
   private getUser() {
-    const user = JSON.parse(
-      localStorage.getItem(userLocalStorageKey) || ""
-    ) as User;
+    const userLocalStorage = localStorage.getItem(userLocalStorageKey);
+
+    const user = userLocalStorage ? JSON.parse(userLocalStorage) as User : null;
 
     if (!user) {
       return {

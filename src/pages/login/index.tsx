@@ -74,7 +74,6 @@ const Login = () => {
   const onSubmit = async () => {
     Api.Auth.login({ email, password })
       .then(response => {
-        debugger;
         AuthService.SetAccount({ user: response });
         history.push("/quizzes");
       })
