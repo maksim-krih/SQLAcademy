@@ -105,6 +105,7 @@ const Login = () => {
           <div className={classes.inputLabel}>Password</div>
           <OutlinedInput
             placeholder="Password"
+            type="password"
             fullWidth
             value={password}
             onChange={(e: any) => setPassword(e.target.value)}
