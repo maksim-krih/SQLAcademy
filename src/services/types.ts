@@ -3,6 +3,12 @@ export interface User {
   lastName: string;
   id: string;
   email: string;
+  role: Role;
+}
+
+export interface Role {
+  id: string;
+  name: string;
 }
 
 export interface IAccount {
