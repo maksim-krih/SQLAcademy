@@ -1,6 +1,8 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { makeStyles, Paper } from '@material-ui/core';
 import { Button } from '../../components';
+import {User} from "../../services/types";
+import Api from "../../services";
 
 const useStyles = makeStyles({
   titleContainer: {
@@ -42,7 +44,14 @@ const useStyles = makeStyles({
 
 const Students = () => {
   const classes = useStyles();
-  const tasks = [1, 2];
+  const [students, setStudents] = useState<Array<User>>([])
+
+  useEffect(() => {
+    (async () => {
+      Api.Auth.getUsers()
+        .then(users => setStudents(users.filter(user => user.role.name === 'Student')))
+    })()
+  }, [])
 
   return (
     <div>
@@ -57,13 +66,14 @@ const Students = () => {
             <tr>
               <th style={{ minWidth: 45 }}>Id</th>
               <th style={{ minWidth: 151 }}>Name</th>
-              <th></th>
+              <th/>
             </tr>
           </thead>
           <tbody>
+          {students.map(student => (
             <tr>
-              <td>1</td>
-              <td>Lorem ipsum dolor</td>
+              <td>{student.id}</td>
+              <td>{student.firstName} {student.lastName}</td>
               <td
                 style={{
                   textAlign: "right",
@@ -76,6 +86,7 @@ const Students = () => {
                 <Button className={classes.results}>View Results</Button>
               </td>
             </tr>
+          ))}
           </tbody>
         </table>
       </Paper>
