@@ -4,21 +4,12 @@ const userLocalStorageKey = "user";
 const tokenLocalStorageKey = "token";
 
 class AuthService {
-  public get Token() {
-    const token = this.getToken();
-    return token ? token : "";
-  }
-
-  public get TokenWithoutBearer() {
-    return this.getToken();
-  }
-
   public get User() {
     return this.getUser() as User;
   }
 
   public get IsAuthenticated() {
-    return !!this.Token;
+    return !!this.User.id;
   }
 
   public SignOut = () => {
@@ -32,7 +23,6 @@ class AuthService {
       userLocalStorageKey,
       JSON.stringify(data.user as User)
     );
-    localStorage.setItem(tokenLocalStorageKey, data.token);
   };
 
   private getUser() {
@@ -44,15 +34,12 @@ class AuthService {
       return {
         firstName: "",
         lastName: "",
-        avatarUrl: ""
+        email: "",
+        id: "",
       };
     }
 
     return user;
-  }
-
-  private getToken() {
-    return localStorage.getItem(tokenLocalStorageKey);
   }
 }
 

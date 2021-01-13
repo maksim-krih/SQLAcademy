@@ -137,7 +137,7 @@ const Layout: FC<IProps> = ({ children }) => {
     prevOpen.current = openMenu;
   }, [openMenu]);
 
-  const avatarUrl = AuthService.User.avatarUrl;
+  const avatarUrl = "";
   const userName = `${AuthService.User.firstName} ${AuthService.User.lastName}`;
 
   return (

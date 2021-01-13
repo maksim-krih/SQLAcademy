@@ -71,10 +71,13 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const onSubmit = () => {
-    const response = Api.Auth.login({ email, password });
-    AuthService.SetAccount(response);
-    history.push("/quizzes");
+  const onSubmit = async () => {
+    Api.Auth.login({ email, password })
+      .then(response => {
+        debugger;
+        AuthService.SetAccount({ user: response });
+        history.push("/quizzes");
+      })
   }
 
   return (
