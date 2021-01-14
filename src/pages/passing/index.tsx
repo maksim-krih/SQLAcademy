@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles, Paper, Divider, TextField } from '@material-ui/core';
 import { Button } from '../../components';
+import { useHistory, useParams } from 'react-router-dom';
+import Api, { AuthService } from '../../services';
+import { QueryResultDto, QuizDto } from '../../services/quiz/types';
 
 const useStyles = makeStyles({
   quizTitleContainer: {
@@ -70,35 +73,75 @@ const useStyles = makeStyles({
 
 const Passing = () => {
   const classes = useStyles();
-  const tasks = [1, 2];
+  const history = useHistory();
+  const [quiz, setQuiz] = useState<QuizDto>({
+    id: 0,
+    name: "",
+    description: "",
+    tasks: [],
+    userId: 0
+  });
+  let { quizId } = useParams<{ quizId: string }>();
+  const [taskQueries, setTaskQueries] = useState<Array<string>>([]);
+  const [taskTables, setTaskTables] = useState<Array<Array<QueryResultDto>>>([]);
+
+  useEffect(() => {
+    (async () => {
+      Api.Quiz.getById(quizId)
+        .then(quiz => {
+          setQuiz(quiz);
+          setTaskQueries(new Array(quiz.tasks.length));
+          setTaskTables(new Array(quiz.tasks.length));
+        })
+    })()
+  }, [])
 
   return (
     <div>
       <Paper elevation={0} className={classes.quizTitleContainer}>
         <div className={classes.quizTitle}>
-          Quiz: Lorem ipsum dolor
+          {quiz.name}
         </div>
-        <Button>Submit</Button>
+        <Button
+          onClick={() => {
+            Api.Quiz.completeQuiz({
+              userId: Number(AuthService.User.id),
+              quizId: Number(quizId),
+              answers: taskQueries.map((x, i) => ({
+                answer: x,
+                taskId: quiz.tasks[i].id,
+              }))
+            }).then(x => {
+              history.push(`/result/${x.results[0].quizId}`);
+            });
+          }}
+        >
+          Submit
+        </Button>
       </Paper>
       <Paper elevation={0} className={classes.taskContainer}>
-        {tasks.map((x, i) => (
+        {quiz.tasks.map((x, i) => (
           <div>
             <div className={classes.taskTitleContainer}>
               <div className={classes.taskTitle}>
-                {x}. Lorem ipsun dolor
+                {i + 1}. {x.title}
               </div>
-              <Button>Run</Button>
+              <Button
+                onClick={() => {
+                  Api.Quiz.runQuery(taskQueries[i]).then(x => {
+                    setTaskTables((prev) => {
+                      prev[i] = x;
+                      return [...prev];
+                    });
+                  });
+                }}
+              >
+                Run
+              </Button>
             </div>
             <div className={classes.taskBody}>
               <div className={classes.taskDescription}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Donec eros erat, feugiat sed scelerisque vel, feugiat et lorem.
-                Curabitur mattis blandit augue. Aliquam in libero id justo
-                rutrum lobortis sed id nisi. Praesent scelerisque nisi nisl,
-                ac porttitor justo scelerisque vitae. Vestibulum ante ipsum
-                primis in faucibus orci luctus et ultrices posuere cubilia
-                curae; In sed interdum erat, nec porta sapien. Nunc maximus
-                erat non risus tempus varius. Praesent et volutpat odio.
+                {x.description}
               </div>
               <Divider
                 orientation="vertical"
@@ -110,58 +153,53 @@ const Passing = () => {
                   multiline
                   rows={5}
                   fullWidth
+                  value={taskQueries[i]}
+                  onChange={(e) => setTaskQueries((prev) => {
+                    prev[i] = e.target.value;
+                    return [...prev];
+                  })}
                   className={classes.taskInput}
                   variant="outlined"
                 />
-                <table className={classes.taskOutput}>
-                  <thead>
-                    <tr>
-                      <th style={{ minWidth: 45 }}>Id</th>
-                      <th style={{ minWidth: 151 }}>Name</th>
-                      <th>Description</th>
-                      <th style={{ minWidth: 83 }}>Price</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>1</td>
-                      <td>Lorem ipsum dolor</td>
-                      <td>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Donec eros erat, feugiat sed scelerisque vel, feugiat et lorem.
-                      </td>
-                      <td>30</td>
-                    </tr>
-                    <tr>
-                      <td>2</td>
-                      <td>Lorem ipsum dolor</td>
-                      <td>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Donec eros erat, feugiat sed scelerisque vel, feugiat et lorem.
-                      </td>
-                      <td>15</td>
-                    </tr>
-                    <tr>
-                      <td>3</td>
-                      <td>Lorem ipsum dolor</td>
-                      <td>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Donec eros erat, feugiat sed scelerisque vel, feugiat et lorem.
-                </td>
-                      <td>100</td>
-                    </tr>
-                  </tbody>
-                </table>
+                {taskTables[i] && taskTables[i].length > 0 &&
+                  <table className={classes.taskOutput}>
+                    <thead>
+                      <tr>
+                        {"id" in taskTables[i][0] &&
+                          <th style={{ minWidth: 45 }}>Id</th>
+                        }
+                        {"name" in taskTables[i][0] &&
+                          <th style={{ minWidth: 151 }}>Name</th>
+                        }
+                        {"description" in taskTables[i][0] &&
+                          <th>Description</th>
+                        }
+                        {"price" in taskTables[i][0] &&
+                          <th style={{ minWidth: 83 }}>Price</th>
+                        }
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {taskTables[i].map(x =>
+                        <tr>
+                          {x.id && <td>{x.id}</td>}
+                          {x.name && <td>{x.name}</td>}
+                          {x.description && <td>{x.description}</td>}
+                          {x.price && <td>{x.price}</td>}
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>}
               </div>
             </div>
             <Divider
               className={classes.taskDivider}
-              hidden={tasks.length - 1 === i}
+              hidden={quiz.tasks.length - 1 === i}
             />
           </div>
         ))}
       </Paper>
-    </div>
+    </div >
   );
 }
 
