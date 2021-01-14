@@ -96,11 +96,11 @@ const Account = () => {
                   <td>{quizId}</td>
                   <td>{quiz.name}</td>
                   <td>
-                    {summary.quizzes[quizId].reduce((previousValue, currentValue) => previousValue + currentValue.isCorrect ? 1 : 0, 0)} / {" "}
+                    {summary.quizzes[quizId].reduce((previousValue, currentValue) => previousValue + (currentValue.isCorrect ? 1 : 0), 0)} / {" "}
                     {summary.quizzes[quizId].length}
                   </td>
                   <td>
-                    {summary.quizzes[quizId].reduce((previousValue, currentValue) => previousValue + currentValue.isCorrect ? currentValue.task.mark : 0, 0)} / {" "}
+                    {summary.quizzes[quizId].reduce((previousValue, currentValue) => previousValue + (currentValue.isCorrect ? currentValue.task.mark : 0), 0)} / {" "}
                     {summary.quizzes[quizId].reduce((previousValue, currentValue) => previousValue + currentValue.task.mark as number, 0)}
                   </td>
                   <td
