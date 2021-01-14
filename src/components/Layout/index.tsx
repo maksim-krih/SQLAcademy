@@ -16,15 +16,15 @@ import {
   MenuList,
   MenuItem
 } from "@material-ui/core";
-import React, { FC } from "react";
+import React, {FC} from "react";
 import SchoolIcon from '@material-ui/icons/School';
 import PersonIcon from '@material-ui/icons/Person';
 import RateReviewIcon from '@material-ui/icons/RateReview';
 import LibraryAddCheckIcon from '@material-ui/icons/LibraryAddCheck';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import { Link } from "react-router-dom";
-import { AuthService } from "../../services";
+import {Link} from "react-router-dom";
+import {AuthService} from "../../services";
 
 const drawerWidth = 292;
 
@@ -100,7 +100,7 @@ interface IProps {
   children: JSX.Element;
 }
 
-const Layout: FC<IProps> = ({ children }) => {
+const Layout: FC<IProps> = ({children}) => {
   const classes = useStyles();
   const [openMenu, setOpenMenu] = React.useState(false);
   const anchorRef = React.useRef<HTMLButtonElement>(null);
@@ -145,10 +145,10 @@ const Layout: FC<IProps> = ({ children }) => {
       <AppBar position="fixed" className={classes.headerContainer}>
         <Toolbar className={classes.header}>
           <div className={classes.title}>
-            <SchoolIcon className={classes.titleIcon} />
+            <SchoolIcon className={classes.titleIcon}/>
             <div className={classes.titleText}>
               SQL Academy
-          </div>
+            </div>
           </div>
           <div className={classes.account}>
             <div className={classes.userName}>{userName}</div>
@@ -160,7 +160,7 @@ const Layout: FC<IProps> = ({ children }) => {
               />
               :
               <div className={classes.userLogo}>
-                <PersonIcon className={classes.userLogoIcon} />
+                <PersonIcon className={classes.userLogoIcon}/>
               </div>
             }
 
@@ -177,10 +177,10 @@ const Layout: FC<IProps> = ({ children }) => {
               disablePortal
               placement='bottom-end'
             >
-              {({ TransitionProps }: any) => (
+              {({TransitionProps}: any) => (
                 <Grow
                   {...TransitionProps}
-                  style={{ transformOrigin: 'right top' }}
+                  style={{transformOrigin: 'right top'}}
                 >
                   <Paper>
                     <ClickAwayListener onClickAway={handleClose}>
@@ -192,16 +192,16 @@ const Layout: FC<IProps> = ({ children }) => {
                         <MenuItem
                           key='Account'
                           component={Link}
-                          to="/"
+                          to="/account"
                         >
                           Account
-                            </MenuItem>
+                        </MenuItem>
                         <MenuItem
                           key='LogOut'
                           onClick={() => AuthService.SignOut()}
                         >
                           Log out
-                            </MenuItem>
+                        </MenuItem>
                       </MenuList>
                     </ClickAwayListener>
                   </Paper>
@@ -218,7 +218,7 @@ const Layout: FC<IProps> = ({ children }) => {
           paper: classes.drawerPaper,
         }}
       >
-        <Toolbar />
+        <Toolbar/>
         <div className={classes.drawerContainer}>
           <List>
             <ListItem
@@ -228,8 +228,8 @@ const Layout: FC<IProps> = ({ children }) => {
                 props => <Link to="/quizzes" {...props} />
               }
             >
-              <ListItemIcon><RateReviewIcon /></ListItemIcon>
-              <ListItemText primary="Quizzes" />
+              <ListItemIcon><RateReviewIcon/></ListItemIcon>
+              <ListItemText primary="Quizzes"/>
             </ListItem>
             <ListItem
               button
@@ -238,8 +238,8 @@ const Layout: FC<IProps> = ({ children }) => {
                 props => <Link to="/results" {...props} />
               }
             >
-              <ListItemIcon><LibraryAddCheckIcon /></ListItemIcon>
-              <ListItemText primary="Results" />
+              <ListItemIcon><LibraryAddCheckIcon/></ListItemIcon>
+              <ListItemText primary="Results"/>
             </ListItem>
             <ListItem
               button
@@ -248,14 +248,14 @@ const Layout: FC<IProps> = ({ children }) => {
                 props => <Link to="/students" {...props} />
               }
             >
-              <ListItemIcon><PeopleAltIcon /></ListItemIcon>
-              <ListItemText primary="Students" />
+              <ListItemIcon><PeopleAltIcon/></ListItemIcon>
+              <ListItemText primary="Students"/>
             </ListItem>
           </List>
         </div>
       </Drawer>
       <main className={classes.content}>
-        <Toolbar />
+        <Toolbar/>
         {children}
       </main>
     </div>
