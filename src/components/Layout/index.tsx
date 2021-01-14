@@ -232,7 +232,7 @@ const Layout: FC<IProps> = ({children}) => {
               <ListItemIcon><RateReviewIcon/></ListItemIcon>
               <ListItemText primary="Quizzes"/>
             </ListItem>
-            <ListItem
+            {Service.IsStudent && <ListItem
               button
               key="Results"
               component={
@@ -241,7 +241,7 @@ const Layout: FC<IProps> = ({children}) => {
             >
               <ListItemIcon><LibraryAddCheckIcon/></ListItemIcon>
               <ListItemText primary="Results"/>
-            </ListItem>
+            </ListItem>}
             {Service.IsAdmin && <ListItem
               button
               key="Students"
