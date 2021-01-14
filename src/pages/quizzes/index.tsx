@@ -70,7 +70,7 @@ const Quizzes = () => {
                 className={classes.divider}
               />
               <div className={classes.button}>
-                <Link to="/passing">
+                <Link to={`/passing/${x.id}`}>
                   <Button>{Service.IsStudent ? 'Start' : 'Edit'}</Button>
                 </Link>
               </div>

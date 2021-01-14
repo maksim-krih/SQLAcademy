@@ -109,26 +109,54 @@ const QuizzesCreate = () => {
             </div>
             <div className={classes.taskLabel}>
               Name
-        </div>
+            </div>
             <TextField
               fullWidth
+              onChange={(e) => setTasks((prev) => {
+                prev[i] = { ...prev[i], title: e.target.value };
+                return [...prev];
+              })}
+              value={x.title}
               variant="outlined"
             />
             <div className={classes.taskLabel}>
               Description
-        </div>
+            </div>
             <TextField
               multiline
+              onChange={(e) => setTasks((prev) => {
+                prev[i] = { ...prev[i], description: e.target.value };
+                return [...prev];
+              })}
+              value={x.description}
               rows={5}
               fullWidth
               variant="outlined"
             />
             <div className={classes.taskLabel}>
               SQL query
-        </div>
+            </div>
             <TextField
+              value={x.query}
+              onChange={(e) => setTasks((prev) => {
+                prev[i] = { ...prev[i], query: e.target.value };
+                return [...prev];
+              })}
               fullWidth
               variant="outlined"
+            />
+            <div className={classes.taskLabel}>
+              Mark
+            </div>
+            <TextField
+              fullWidth
+              onChange={(e) => setTasks((prev) => {
+                prev[i] = { ...prev[i], mark: Number(e.target.value) };
+                return [...prev];
+              })}
+              value={x.mark}
+              variant="outlined"
+              type="number"
             />
             <Divider className={classes.divider} />
           </Fragment>
