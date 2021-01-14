@@ -11,6 +11,14 @@ class AuthService {
     return !!this.User.id;
   }
 
+  public get IsAdmin() {
+    return this.User.role.name === 'Admin'
+  }
+
+  public get IsStudent() {
+    return this.User.role.name === 'Student'
+  }
+
   public SignOut = () => {
     localStorage.clear();
 

@@ -25,6 +25,7 @@ import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import {Link} from "react-router-dom";
 import {AuthService} from "../../services";
+import {Service} from "../../services/auth";
 
 const drawerWidth = 292;
 
@@ -241,7 +242,7 @@ const Layout: FC<IProps> = ({children}) => {
               <ListItemIcon><LibraryAddCheckIcon/></ListItemIcon>
               <ListItemText primary="Results"/>
             </ListItem>
-            <ListItem
+            {Service.IsAdmin && <ListItem
               button
               key="Students"
               component={
@@ -250,7 +251,7 @@ const Layout: FC<IProps> = ({children}) => {
             >
               <ListItemIcon><PeopleAltIcon/></ListItemIcon>
               <ListItemText primary="Students"/>
-            </ListItem>
+            </ListItem>}
           </List>
         </div>
       </Drawer>

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '../../components';
 import Api from '../../services';
 import { QuizDto } from '../../services/quiz/types';
+import {Service} from "../../services/auth";
 
 const useStyles = makeStyles({
   titleContainer: {
@@ -54,9 +55,9 @@ const Quizzes = () => {
         <div className={classes.title}>
           Quizzes
         </div>
-        <Link to="/quizzes/create">
+        {Service.IsAdmin && <Link to="/quizzes/create">
           <Button>Create</Button>
-        </Link>
+        </Link>}
       </Paper>
       <Grid container spacing={4}>
         {quizzes.map(x => (
@@ -70,7 +71,7 @@ const Quizzes = () => {
               />
               <div className={classes.button}>
                 <Link to="/passing">
-                  <Button>Start</Button>
+                  <Button>{Service.IsStudent ? 'Start' : 'Edit'}</Button>
                 </Link>
               </div>
             </Paper>
