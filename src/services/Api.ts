@@ -1,6 +1,7 @@
 import axios from "axios"
 import { QuizApi } from "./quiz"
 import { AuthApi } from "./auth"
+import ResultApi from "./result/api";
 
 const backendUrl = "http://localhost:3000";
 
@@ -20,6 +21,10 @@ class Api {
 
   static get Auth() {
     return new AuthApi();
+  }
+
+  static get Result() {
+    return new ResultApi();
   }
 }
 

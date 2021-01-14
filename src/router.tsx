@@ -14,6 +14,7 @@ import Students from "./pages/students";
 import QuizzesCreate from "./pages/quizzes/create";
 import { ScrollToTop } from "./components";
 import { onlyAuth, withLayout } from "./hocs";
+import Account from "./pages/account";
 
 const PrivateRoute = onlyAuth("/login")(Route);
 
@@ -28,6 +29,7 @@ const Router = () => {
           <PrivateRoute path="/quizzes/create" exact component={withLayout(QuizzesCreate)} />
           <PrivateRoute path="/results" exact component={withLayout(Results)} />
           <PrivateRoute path="/students" exact component={withLayout(Students)} />
+          <PrivateRoute path="/account" exact component={withLayout(Account)} />
           <Route path="/login" exact component={Login} />
           <Route exact path="/">
             <Redirect to="/quizzes" />
