@@ -1,6 +1,9 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { makeStyles, Paper, Grid, Divider } from '@material-ui/core';
 import { Button } from '../../components';
+import {Summary} from "../../services/result/types";
+import {QuizDto} from "../../services/quiz/types";
+import Api, {AuthService} from "../../services";
 
 const useStyles = makeStyles({
   titleContainer: {
@@ -41,7 +44,25 @@ const useStyles = makeStyles({
 
 const Results = () => {
   const classes = useStyles();
-  const tasks = [1, 2, 3, 4, 5, 6];
+
+  const [summary, setSummary] = useState<Summary>()
+  const [quizzes, setQuizzes] = useState<Array<QuizDto>>([]);
+
+  useEffect(() => {
+    (async () => {
+      Api.Quiz.getAll().then(response => {
+        setQuizzes(response);
+      })
+    })()
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      Api.Result.getUserResults(AuthService.User.id).then(response => {
+        setSummary(response);
+      })
+    })()
+  }, []);
 
   return (
     <div>
@@ -51,24 +72,28 @@ const Results = () => {
         </div>
       </Paper>
       <Grid container spacing={4}>
-        {tasks.map(x => (
-          <Grid item xs={4}>
-            <Paper elevation={0} className={classes.paper}>
-              <div className={classes.quizTitle}>
-                {x}. Lorem ipsum dolor
-              </div>
-              <Divider
-                className={classes.divider}
-              />
-              <div className={classes.footer}>
-                <div className={classes.score}>
-                  Score: 8 / 10
-              </div>
-                <Button>View</Button>
-              </div>
-            </Paper>
-          </Grid>
-        ))}
+        {summary && Object.keys(summary.quizzes as any).map(quizId => {
+          const quiz = quizzes.find(quiz => (quiz as any).id == quizId) as any
+          return quiz && (
+            <Grid item xs={4}>
+              <Paper elevation={0} className={classes.paper}>
+                <div className={classes.quizTitle}>
+                  {quiz.name}
+                </div>
+                <Divider
+                  className={classes.divider}
+                />
+                <div className={classes.footer}>
+                  <div className={classes.score}>
+                    Mark: {summary.quizzes[quizId].reduce((previousValue, currentValue) => previousValue + currentValue.isCorrect ? currentValue.task.mark : 0, 0)} / {" "}
+                    {summary.quizzes[quizId].reduce((previousValue, currentValue) => previousValue + currentValue.task.mark as number, 0)}
+                  </div>
+                  <Button>View</Button>
+                </div>
+              </Paper>
+            </Grid>
+          );
+        })}
       </Grid>
     </div>
   );
