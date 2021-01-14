@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles, Paper, Divider, TextField } from '@material-ui/core';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import IndeterminateCheckBoxIcon from '@material-ui/icons/IndeterminateCheckBox';
+import Api from '../../services';
+import { useParams } from 'react-router-dom';
+import { QuizDto, QuizResultResponse, ResultTaskDto } from '../../services/quiz/types';
 
 const useStyles = makeStyles({
   quizTitle: {
@@ -63,43 +66,60 @@ const useStyles = makeStyles({
 
 const Result = () => {
   const classes = useStyles();
-  const tasks = [1, 2];
+  const [quizzes, setQuizzes] = useState<Array<QuizDto>>([]);
+  const [quizResults, setQuizResults] = useState<QuizResultResponse>({
+    userId: 0,
+    results: []
+  });
+  let { quizId, userId } = useParams<{ quizId: string, userId: string }>();
+
+  useEffect(() => {
+    (async () => {
+      Api.Quiz.getAll().then(response => {
+        setQuizzes(response);
+      })
+    })()
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      Api.Quiz.getResults(quizId, userId)
+        .then(quiz => {
+          setQuizResults(quiz);
+        })
+    })()
+  }, [])
+
+  const quiz = quizzes.find(quiz => (quiz as any).id == quizId);
 
   return (
     <div>
       <Paper elevation={0} className={classes.quizTitle}>
         <div>
-          Quiz: Lorem ipsum dolor
+          {quiz?.name}
         </div>
         <div>
-          8 / 10
+          {quizResults.results.reduce((previousValue, currentValue) => previousValue + (currentValue.isCorrect ? currentValue.task.mark : 0), 0)} / {" "}
+          {quizResults.results.reduce((previousValue, currentValue) => previousValue + currentValue.task.mark as number, 0)}
         </div>
       </Paper>
       <Paper elevation={0} className={classes.taskContainer}>
-        {tasks.map((x, i) => (
+        {quizResults.results.map((x, i) => (
           <div>
             <div className={classes.taskTitleContainer}>
               <div className={classes.taskTitle}>
-                {x}. Lorem ipsun dolor
+                {i + 1}. {x.task.title}
               </div>
               <div className={classes.taskResultContainer}>
                 <div className={classes.taskResult}>
-                  Correct
+                  {x.isCorrect ? "Correct" : "Incorrect"}
                 </div>
-                <CheckBoxIcon />
-                {/* <IndeterminateCheckBoxIcon /> */}
+                {x.isCorrect ? <CheckBoxIcon /> : <IndeterminateCheckBoxIcon />}
               </div>
             </div>
             <div className={classes.taskDescription}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Donec eros erat, feugiat sed scelerisque vel, feugiat et lorem.
-              Curabitur mattis blandit augue. Aliquam in libero id justo
-              rutrum lobortis sed id nisi. Praesent scelerisque nisi nisl,
-              ac porttitor justo scelerisque vitae. Vestibulum ante ipsum
-              primis in faucibus orci luctus et ultrices posuere cubilia
-              curae; In sed interdum erat, nec porta sapien. Nunc maximus
-              erat non risus tempus varius. Praesent et volutpat odio.
-              </div>
+              {x.task.description}
+            </div>
             <div className={classes.taskCompletion}>
               <div className={classes.taskCompletionText}>
                 Your answer:
@@ -107,12 +127,14 @@ const Result = () => {
               <TextField
                 multiline
                 fullWidth
+                value={x.answer}
+                InputProps={{ readOnly: true }}
                 variant="outlined"
               />
             </div>
             <Divider
               className={classes.taskDivider}
-              hidden={tasks.length - 1 === i}
+              hidden={quizResults.results.length - 1 === i}
             />
           </div>
         ))}

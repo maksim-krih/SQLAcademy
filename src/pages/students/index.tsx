@@ -1,8 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles, Paper } from '@material-ui/core';
 import { Button } from '../../components';
-import {User} from "../../services/types";
+import { User } from "../../services/types";
 import Api from "../../services";
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles({
   titleContainer: {
@@ -44,6 +45,7 @@ const useStyles = makeStyles({
 
 const Students = () => {
   const classes = useStyles();
+  const history = useHistory();
   const [students, setStudents] = useState<Array<User>>([])
 
   useEffect(() => {
@@ -66,27 +68,34 @@ const Students = () => {
             <tr>
               <th style={{ minWidth: 45 }}>Id</th>
               <th style={{ minWidth: 151 }}>Name</th>
-              <th/>
+              <th />
             </tr>
           </thead>
           <tbody>
-          {students.map(student => (
-            <tr>
-              <td>{student.id}</td>
-              <td>{student.firstName} {student.lastName}</td>
-              <td
-                style={{
-                  textAlign: "right",
-                  width: "100%",
-                  paddingTop: 9,
-                  paddingRight: 13,
-                  paddingBottom: 7,
-                }}
-              >
-                <Button className={classes.results}>View Results</Button>
-              </td>
-            </tr>
-          ))}
+            {students.map(student => (
+              <tr>
+                <td>{student.id}</td>
+                <td>{student.firstName} {student.lastName}</td>
+                <td
+                  style={{
+                    textAlign: "right",
+                    width: "100%",
+                    paddingTop: 9,
+                    paddingRight: 13,
+                    paddingBottom: 7,
+                  }}
+                >
+                  <Button
+                    className={classes.results}
+                    onClick={() => {
+                      history.push(`/results/${student.id}`);
+                    }}
+                  >
+                    View Results
+                  </Button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </Paper>

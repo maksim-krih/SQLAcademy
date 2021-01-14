@@ -1,9 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles, Paper, Grid, Divider } from '@material-ui/core';
 import { Button } from '../../components';
-import {Summary} from "../../services/result/types";
-import {QuizDto} from "../../services/quiz/types";
-import Api, {AuthService} from "../../services";
+import { Summary } from "../../services/result/types";
+import { QuizDto } from "../../services/quiz/types";
+import Api, { AuthService } from "../../services";
+import { useHistory, useParams } from 'react-router-dom';
 
 const useStyles = makeStyles({
   titleContainer: {
@@ -44,6 +45,9 @@ const useStyles = makeStyles({
 
 const Results = () => {
   const classes = useStyles();
+  const history = useHistory();
+
+  let { userId } = useParams<{ userId: string }>();
 
   const [summary, setSummary] = useState<Summary>()
   const [quizzes, setQuizzes] = useState<Array<QuizDto>>([]);
@@ -58,7 +62,7 @@ const Results = () => {
 
   useEffect(() => {
     (async () => {
-      Api.Result.getUserResults(AuthService.User.id).then(response => {
+      Api.Result.getUserResults(userId || AuthService.User.id).then(response => {
         setSummary(response);
       })
     })()
@@ -88,7 +92,13 @@ const Results = () => {
                     Mark: {summary.quizzes[quizId].reduce((previousValue, currentValue) => previousValue + currentValue.isCorrect ? currentValue.task.mark : 0, 0)} / {" "}
                     {summary.quizzes[quizId].reduce((previousValue, currentValue) => previousValue + currentValue.task.mark as number, 0)}
                   </div>
-                  <Button>View</Button>
+                  <Button
+                    onClick={() => {
+                      history.push(`/result/${quizId}/${userId || AuthService.User.id}`);
+                    }}
+                  >
+                    View
+                    </Button>
                 </div>
               </Paper>
             </Grid>

@@ -7,11 +7,25 @@ export interface QuizDto {
 }
 
 export interface TaskDto {
-  title: string;
   description: string;
-  query: string;
-  mark: number;
+  expectedResult?: QueryResultDto[];
   id?: number;
+  mark: number;
+  query: string;
+  quizId?: number;
+  title: string;
+  userId?: number;
+  isCorrect?: boolean;
+}
+
+export interface ResultTaskDto {
+  answer: string;
+  id?: number;
+  isCorrect?: boolean;
+  quizId?: number;
+  task: TaskDto;
+  taskId?: number;
+  userId?: number;
 }
 
 export interface QueryResultDto {
@@ -34,14 +48,6 @@ export interface AnswerDto {
 
 export interface QuizResultResponse {
   userId: number;
-  results: AnswerResponse[];
+  results: ResultTaskDto[];
 }
 
-export interface AnswerResponse {
-  taskId: number;
-  answer: string;
-  isCorrect: boolean;
-  userId: number;
-  quizId: number;
-  id: number;
-}

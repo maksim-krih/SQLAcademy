@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from 'react';
-import {makeStyles, Paper, Typography} from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
+import { makeStyles, Paper, Typography } from '@material-ui/core';
 import { Button } from '../../components';
-import {User} from "../../services/types";
-import Api, {AuthService} from "../../services";
-import {QuizDto} from "../../services/quiz/types";
-import {Summary} from "../../services/result/types";
+import { useHistory } from 'react-router-dom';
+import Api, { AuthService } from "../../services";
+import { QuizDto } from "../../services/quiz/types";
+import { Summary } from "../../services/result/types";
 
 const useStyles = makeStyles({
   titleContainer: {
@@ -46,7 +46,8 @@ const useStyles = makeStyles({
 
 const Account = () => {
   const classes = useStyles();
-  const [summary, setSummary] = useState<Summary>()
+  const history = useHistory();
+  const [summary, setSummary] = useState<Summary>();
   const [quizzes, setQuizzes] = useState<Array<QuizDto>>([]);
 
   useEffect(() => {
@@ -79,43 +80,50 @@ const Account = () => {
         </Typography>
         <table className={classes.students}>
           <thead>
-          <tr>
-            <th style={{ minWidth: 45 }}>Id</th>
-            <th style={{ minWidth: 151 }}>Name</th>
-            <th style={{ minWidth: 151 }}>Tasks</th>
-            <th style={{ minWidth: 151 }}>Marks</th>
-            <th/>
-          </tr>
+            <tr>
+              <th style={{ minWidth: 45 }}>Id</th>
+              <th style={{ minWidth: 151 }}>Name</th>
+              <th style={{ minWidth: 151 }}>Tasks</th>
+              <th style={{ minWidth: 151 }}>Marks</th>
+              <th />
+            </tr>
           </thead>
           <tbody>
-          {summary && Object.keys(summary.quizzes as any).map(quizId => {
-            const quiz = quizzes.find(quiz => (quiz as any).id == quizId) as any
-            return quiz && (
-              <tr>
-                <td>{quizId}</td>
-                <td>{quiz.name}</td>
-                <td>
-                  {summary.quizzes[quizId].reduce((previousValue, currentValue) => previousValue + currentValue.isCorrect ? 1 : 0, 0)} / {" "}
-                  {summary.quizzes[quizId].length}
-                </td>
-                <td>
-                  {summary.quizzes[quizId].reduce((previousValue, currentValue) => previousValue + currentValue.isCorrect ? currentValue.task.mark : 0, 0)} / {" "}
-                  {summary.quizzes[quizId].reduce((previousValue, currentValue) => previousValue + currentValue.task.mark as number, 0)}
-                </td>
-                <td
-                  style={{
-                    textAlign: "right",
-                    width: "100%",
-                    paddingTop: 9,
-                    paddingRight: 13,
-                    paddingBottom: 7,
-                  }}
-                >
-                  <Button className={classes.results}>View Results</Button>
-                </td>
-              </tr>
-            );
-          })}
+            {summary && Object.keys(summary.quizzes as any).map(quizId => {
+              const quiz = quizzes.find(quiz => (quiz as any).id == quizId) as any
+              return quiz && (
+                <tr>
+                  <td>{quizId}</td>
+                  <td>{quiz.name}</td>
+                  <td>
+                    {summary.quizzes[quizId].reduce((previousValue, currentValue) => previousValue + currentValue.isCorrect ? 1 : 0, 0)} / {" "}
+                    {summary.quizzes[quizId].length}
+                  </td>
+                  <td>
+                    {summary.quizzes[quizId].reduce((previousValue, currentValue) => previousValue + currentValue.isCorrect ? currentValue.task.mark : 0, 0)} / {" "}
+                    {summary.quizzes[quizId].reduce((previousValue, currentValue) => previousValue + currentValue.task.mark as number, 0)}
+                  </td>
+                  <td
+                    style={{
+                      textAlign: "right",
+                      width: "100%",
+                      paddingTop: 9,
+                      paddingRight: 13,
+                      paddingBottom: 7,
+                    }}
+                  >
+                    <Button
+                      className={classes.results}
+                      onClick={() => {
+                        history.push(`/result/${quizId}/${AuthService.User.id}`);
+                      }}
+                    >
+                      View Results
+                    </Button>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </Paper>

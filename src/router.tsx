@@ -24,9 +24,10 @@ const Router = () => {
       <ScrollToTop>
         <Switch>
           <PrivateRoute path="/passing/:quizId" exact component={withLayout(Passing)} />
-          <PrivateRoute path="/result/:quizId" exact component={withLayout(Result)} />
+          <PrivateRoute path="/result/:quizId/:userId" exact component={withLayout(Result)} />
           <PrivateRoute path="/quizzes" exact component={withLayout(Quizzes)} />
           <PrivateRoute path="/quizzes/create" exact component={withLayout(QuizzesCreate)} />
+          <PrivateRoute path="/results/:userId" exact component={withLayout(Results)} />
           <PrivateRoute path="/results" exact component={withLayout(Results)} />
           <PrivateRoute path="/students" exact component={withLayout(Students)} />
           <PrivateRoute path="/account" exact component={withLayout(Account)} />
@@ -34,7 +35,6 @@ const Router = () => {
           <Route exact path="/">
             <Redirect to="/quizzes" />
           </Route>
-
         </Switch>
       </ScrollToTop>
     </BrowserRouter>

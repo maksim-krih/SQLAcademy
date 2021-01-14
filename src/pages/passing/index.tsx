@@ -112,7 +112,7 @@ const Passing = () => {
                 taskId: quiz.tasks[i].id,
               }))
             }).then(x => {
-              history.push(`/result/${x.results[0].quizId}`);
+              history.push(`/result/${x.results[0].quizId}/${AuthService.User.id}`);
             });
           }}
         >

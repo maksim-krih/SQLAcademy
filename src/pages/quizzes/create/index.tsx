@@ -4,6 +4,7 @@ import { Button } from '../../../components';
 import Api, { AuthService } from '../../../services';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { useHistory } from 'react-router-dom';
+import { TaskDto } from '../../../services/quiz/types';
 
 const useStyles = makeStyles({
   titleContainer: {
@@ -55,11 +56,11 @@ const QuizzesCreate = () => {
     name: "",
     description: ""
   });
-  const [tasks, setTasks] = useState([{
+  const [tasks, setTasks] = useState<Array<TaskDto>>([{
     title: "",
     description: "",
     query: "",
-    mark: 0
+    mark: 0,
   }]);
 
   const save = () => {

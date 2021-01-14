@@ -1,7 +1,7 @@
 import { BaseApi } from "../Api";
 import { IError } from "../types";
 import { QuizDto, QueryResultDto, QuizResultDto, QuizResultResponse } from "./types";
-import { save, getAll, getById, runQuery, completeQuiz } from "./urls";
+import { save, getAll, getById, runQuery, completeQuiz, getResults } from "./urls";
 
 class QuizApi {
   public save = async (model: QuizDto): Promise<QuizDto> => {
@@ -34,6 +34,11 @@ class QuizApi {
       .catch((e: IError) => console.log("", e));
   };
 
+  public getResults = async (quizId: string, userId: string): Promise<QuizResultResponse> => {
+    return BaseApi.get(getResults(quizId, userId))
+      .then((response: any) => response.data)
+      .catch((e: IError) => console.log("", e));
+  };
 }
 
 export default QuizApi;
